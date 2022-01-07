@@ -3,7 +3,6 @@ import Movie from './Movie';
 
 function MovieList(props){
     const Movies = props.MovieList
-    const Likedlist = props.likedlist
     return(
         <div className="container-fluid movie-app">
             <div className="row">

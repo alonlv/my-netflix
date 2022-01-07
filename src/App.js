@@ -28,7 +28,7 @@ async function FetchData(setData, search) {
 // Fetch Favorite Data From SQLlite local server
 async function FetchFavoriteData(setFavoriteData) {
   useEffect(() => {
-    async function fetchfavoriteMoviesList() {
+    async function fetchfavoriteMoviesList() { 
       const response = await fetch(`http://localhost//GetFavorites`);
       const data = await response.json();
       setFavoriteData(data["Search"])

@@ -1,8 +1,23 @@
-import { useState } from 'react'
+import { setData, setState } from 'react'
+import React from 'react';
+
+function UpdateDB(Movie) { // chnge name
+    // Simple POST request with a JSON body using fetch
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Movie)
+    };
+    
+    fetch('/toggleMovie', requestOptions)
+        .then(response => response.json());
+        //.then(data => setData(data));
+    window.location.reload();
+}
+
 
 function Movie(props) {
     const Movie = props.movie
-    const Liked = props.liked
 
     return (
         <div className="d-flex justify-content-start m-3" id="movie">
@@ -10,14 +25,10 @@ function Movie(props) {
                 <a href={"https://www.imdb.com/title/" + Movie.imdbID}>
                     <img src={Movie.Poster} alt="Poster" height="600" className="movie_poster"></img>
                 </a>
-                <center> {Movie.Title} ({Movie.Year}) </center>
-                <form method='POST' action='toggleMovie'>
-                    <input type="text" name="Title" hidden="true" value={Movie.Title}></input>
-                    <input type="text" name="imdbID" hidden="true" value={Movie.imdbID}></input>
-                    <input type="text" name="Poster" hidden="true" value={Movie.Poster}></input>
-                    <input type="text" name="Year" hidden="true" value={Movie.Year}></input>
-                    <input type="submit" value="Add/Remove as Favorite"></input>
-                </form>
+                <center> {Movie.Title} ({Movie.Year})
+                <br></br>
+                <button onClick={()=>UpdateDB(Movie)}>Add/Remove as Favorite</button>
+                </center>
             </div>
         </div>
 

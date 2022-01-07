@@ -67,19 +67,10 @@ def files(path):
 @app.route('/toggleMovie', methods=["GET", "POST"])
 @response_wrapper
 def toggleMovie():
-    MovieForm = request.form
-    sqlcommentd = f"INSERT INTO 'Favorites' (imdbID, Title, Poster, Year) VALUES ('{MovieForm['Title']}', '{MovieForm['imdbID']}', '{MovieForm['Poster']}', '{MovieForm['Year']}')"
-    all_data = execute_query(COON, f"SELECT * FROM 'Favorites'")
-    for data in execute_query(COON, f"SELECT * FROM 'Favorites'"):
-        if data[1] == MovieForm['imdbID']:
-            Delate_Data(COON)
-            for d in all_data:
-                if d[1] != MovieForm['imdbID']:
-                    sqlcommentd = f"INSERT INTO 'Favorites' (imdbID, Title, Poster, Year) VALUES ('{d[0]}', '{d[1]}', '{d[2]}', '{d[3]}')"
-                    execute_query(COON, sqlcommentd)
-            return send_from_directory(ROOT_FOLDER, PATH)
-
-
+    Movie = json.loads(request.data)
+    sqlcommentd = f"INSERT INTO 'Favorites' (imdbID, Title, Poster, Year) VALUES ('{Movie['imdbID']}', '{Movie['Title']}', '{Movie['Poster']}', '{Movie['Year']}')"
+    if execute_query(COON, f"SELECT * FROM 'Favorites' WHERE imdbID='{Movie['imdbID']}'") != []:
+        sqlcommentd = f"DELETE FROM 'Favorites' WHERE imdbID='{Movie['imdbID']}'"
     execute_command(COON, sqlcommentd)
     return send_from_directory(ROOT_FOLDER, PATH)
 
@@ -89,7 +80,7 @@ def getFavorites():
         data = execute_query(COON, "SELECT * FROM 'Favorites'")
         dic_data = {"Response": "True", "Search":[]}
         for movie in data:
-            dic = {"Title":movie[0], "Year":movie[3],"imdbID":movie[1], "Poster":movie[2]}
+            dic = {"imdbID":movie[0], "Year":movie[3],"Title":movie[1], "Poster":movie[2]}
             dic_data["Search"].append(dic)
         return make_response(dic_data)
 

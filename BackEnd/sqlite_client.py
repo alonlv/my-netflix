@@ -1,9 +1,10 @@
 import sqlite3
 from sqlite3 import Error
-db_Name = ".\\pythonsqlite.db"
-Table ="CREATE TABLE IF NOT EXISTS 'Favorites' ('imdbID' TEXT, 'Title' TEXT, 'Poster' TEXT, 'Year' INTEGER, PRIMARY KEY('imdbID'))"""
 
-def create_connection(db_file=db_Name):
+DB_NAME = ".\\pythonsqlite.db"
+TABLE_CREATE_COM ="CREATE TABLE IF NOT EXISTS 'Favorites' ('imdbID' TEXT, 'Title' TEXT, 'Poster' TEXT, 'Year' INTEGER, PRIMARY KEY('imdbID'))"""
+
+def create_connection(db_file=DB_NAME):
     """ create a database connection to a SQLite database """
     conn = None
     try:
@@ -25,7 +26,7 @@ def Delate_Data(conn):
         print(error)
 
 
-def create_table(conn, create_table_sql=Table):
+def create_table(conn, create_table_sql=TABLE_CREATE_COM):
     """ create a table from the create_table_sql statement
     :param conn: Connection object
     :param create_table_sql: a CREATE TABLE statement
@@ -60,4 +61,4 @@ def execute_query(conn, query):
     
 
 if __name__ == '__main__':
-    create_connection(db_Name)
+    create_connection(DB_NAME)
