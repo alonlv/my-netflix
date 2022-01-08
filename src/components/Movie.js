@@ -3,19 +3,18 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 import DataShit from './DataShit';
 import ReactDOM from 'react-dom'
+import notFavoriteIcon from '../Img/not-favorite-icon.png';
+import favoriteIcon from '../Img/favorite-icon.png';
 
 
-function UpdateDB(Movie) { // chnge name
-    // Simple POST request with a JSON body using fetch
+function UpdateDB(Movie) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(Movie)
     };
-
     fetch('/toggleMovie', requestOptions)
         .then(response => response.json());
-    //.then(data => setData(data));
     window.location.reload();
 }
 
@@ -43,18 +42,18 @@ async function fetchMovieData(setData, imdbID) {
 
 function Movie(props) {
     const Movie = props.movie
+    const Favorite = props.Favorite
     const [MovieData, setData] = useState()
 
     return (
         <div className="d-flex justify-content-start m-3" id="movie">
             <div>
-                <a href={"https://www.imdb.com/title/" + Movie.imdbID}>
+                <a onClick={() => fetchMovieData(setData, Movie.imdbID)}>
                     <img src={Movie.Poster} alt="Poster" height="600" className="movie_poster"></img>
                 </a>
                 <center> {Movie.Title} ({Movie.Year})
-                    <br></br>
-                    <button onClick={() => UpdateDB(Movie)}>Add/Remove as Favorite</button>
-                    <button onClick={() => fetchMovieData(setData, Movie.imdbID)}>More Data</button>
+                    <a onClick={() => fetchMovieData(setData, Movie.imdbID)}> </a>
+                    <img onClick={() => UpdateDB(Movie)} src={Favorite ? favoriteIcon : notFavoriteIcon} alt="IsFavorite" className="icon"></img>
                 </center>
             </div>
             <div id={Movie.imdbID}>

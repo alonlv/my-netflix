@@ -13,7 +13,10 @@ function DataShit(props) {
                 </tr>
             </thead>
             <tbody>
-                <tr><th scope="row">Title:</th><td>{MovieData['Title']}</td></tr>
+                <tr><th scope="row">Title:</th><td>
+                    <a href={"https://www.imdb.com/title/" + MovieData["Year"]}>
+                        {MovieData['Title']}
+                    </a></td></tr>
                 <tr><th scope="row"> Year: </th> <td>{MovieData['Year']}</td> </tr>
                 <tr><th scope="row"> Rated: </th> <td>{MovieData['Rated']}</td></tr>
                 <tr><th scope="row"> Released: </th> <td>{MovieData['Released']}</td></tr>

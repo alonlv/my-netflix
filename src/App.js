@@ -1,8 +1,8 @@
 import SearchBox from './components/SearchBox';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import MovieList from './components/MovieList';
 import Header from './components/Header';
+import MovieList from './components/MovieList';
 import { useState, useEffect } from 'react';
 
 
@@ -29,7 +29,7 @@ async function FetchMovies(setData, search) {
 // Fetch Favorite Data From SQLlite local server
 async function FetchFavoriteData(setFavoriteData) {
   useEffect(() => {
-    async function fetchfavoriteMoviesList() { 
+    async function fetchfavoriteMoviesList() {
       const response = await fetch(`http://localhost//GetFavorites`);
       const data = await response.json();
       setFavoriteData(data["Search"])
@@ -38,10 +38,9 @@ async function FetchFavoriteData(setFavoriteData) {
   }, [])
 }
 
-function liked(FavoriteList){
+function liked(FavoriteList) {
   const liked_list = []
-  for (let movie in FavoriteList)
-  {
+  for (let movie in FavoriteList) {
     liked_list.add(movie.imdbID)
   }
   return liked_list
@@ -53,7 +52,6 @@ function App() {
   const [MyFavorite, setFavoriteData] = useState([])
   FetchFavoriteData(setFavoriteData)
   FetchMovies(setData, search)
-  console.log(MoviesList)
 
   return (
     <div>
@@ -61,9 +59,9 @@ function App() {
       <center>
         <SearchBox search={setText} />
         <Header header="Search result:" />
-        <MovieList MovieList={MoviesList} />
+        <MovieList MovieList={MoviesList} FavoriteList={MyFavorite.map((x) => x["imdbID"])} />
         <Header header="My Favorites:" />
-        <MovieList MovieList={MyFavorite}/>
+        <MovieList MovieList={MyFavorite} FavoriteList={MyFavorite.map((x) => x["imdbID"])} />
       </center>
     </div>
   );
