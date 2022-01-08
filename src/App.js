@@ -25,7 +25,6 @@ async function FetchMovies(setData, search) {
   }, [search])
 }
 
-
 // Fetch Favorite Data From SQLlite local server
 async function FetchFavoriteData(setFavoriteData) {
   useEffect(() => {
@@ -59,9 +58,9 @@ function App() {
       <center>
         <SearchBox search={setText} />
         <Header header="Search result:" />
-        <MovieList MovieList={MoviesList} FavoriteList={MyFavorite.map((x) => x["imdbID"])} />
+        <MovieList MovieList={MoviesList} ListType="Search" FavoriteList={MyFavorite.map((x) => x["imdbID"])} />
         <Header header="My Favorites:" />
-        <MovieList MovieList={MyFavorite} FavoriteList={MyFavorite.map((x) => x["imdbID"])} />
+        <MovieList MovieList={MyFavorite} ListType="Favorit" FavoriteList={MyFavorite.map((x) => x["imdbID"])} />
       </center>
     </div>
   );
