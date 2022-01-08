@@ -94,6 +94,11 @@ label {
   border-radius: 10px;
 }
 
+.moviedata{
+  border-width: 1%;
+  border-color: dimgrey;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

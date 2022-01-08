@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 
 
 // Fetch data Data From SQLlite local server
-async function FetchData(setData, search) {
+async function FetchMovies(setData, search) {
   useEffect(() => {
     async function fetchMoviesList() {
       const response = await fetch(`http://www.omdbapi.com/?s="` + search + `"&apikey=63f983f4`);
@@ -24,6 +24,7 @@ async function FetchData(setData, search) {
     } fetchMoviesList()
   }, [search])
 }
+
 
 // Fetch Favorite Data From SQLlite local server
 async function FetchFavoriteData(setFavoriteData) {
@@ -51,7 +52,7 @@ function App() {
   const [MoviesList, setData] = useState([])
   const [MyFavorite, setFavoriteData] = useState([])
   FetchFavoriteData(setFavoriteData)
-  FetchData(setData, search)
+  FetchMovies(setData, search)
   console.log(MoviesList)
 
   return (
