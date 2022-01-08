@@ -4,6 +4,7 @@ import './App.css';
 import Header from './components/Header';
 import MovieList from './components/MovieList';
 import { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom'
 
 
 // Fetch data Data From SQLlite local server
@@ -25,11 +26,31 @@ async function FetchMovies(setData, search) {
   }, [search])
 }
 
+async function GetMyFavorites() {
+  const DataDiv = document.getElementById('FavoriteSection')
+  if (DataDiv.children.length == 0) {
+    const MyFavorites = await FetchFavoriteFullData();
+    ReactDOM.render(<>
+      <Header header="My Favorites:" />
+      <MovieList MovieList={MyFavorites} FavoriteList={MyFavorites.map((x) => x["imdbID"])} />
+    </>, DataDiv);
+    return
+  }
+  DataDiv.hidden = !DataDiv.hidden
+  return
+}
+
+async function FetchFavoriteFullData() {
+  const response = await fetch(`http://localhost//GetFavorites`);
+  const data = await response.json();
+  return data["Search"]
+}
+
 // Fetch Favorite Data From SQLlite local server
-async function FetchFavoriteData(setFavoriteData) {
+async function FetchFavoriteData(setFavoriteData, FullData) {
   useEffect(() => {
     async function fetchfavoriteMoviesList() {
-      const response = await fetch(`http://localhost//GetFavorites`);
+      const response = await fetch(`http://localhost//GetFavoritesID`);
       const data = await response.json();
       setFavoriteData(data["Search"])
       return
@@ -37,18 +58,10 @@ async function FetchFavoriteData(setFavoriteData) {
   }, [])
 }
 
-function liked(FavoriteList) {
-  const liked_list = []
-  for (let movie in FavoriteList) {
-    liked_list.add(movie.imdbID)
-  }
-  return liked_list
-}
-
 function App() {
   const [search, setText] = useState("Batman")
   const [MoviesList, setData] = useState([])
-  const [MyFavorite, setFavoriteData] = useState([])
+  const [MyFavorites, setFavoriteData] = useState([])
   FetchFavoriteData(setFavoriteData)
   FetchMovies(setData, search)
 
@@ -56,11 +69,11 @@ function App() {
     <div>
       <br></br>
       <center>
+        <button onClick={GetMyFavorites}>Show my</button>
         <SearchBox search={setText} />
         <Header header="Search result:" />
-        <MovieList MovieList={MoviesList} ListType="Search" FavoriteList={MyFavorite.map((x) => x["imdbID"])} />
-        <Header header="My Favorites:" />
-        <MovieList MovieList={MyFavorite} ListType="Favorit" FavoriteList={MyFavorite.map((x) => x["imdbID"])} />
+        <MovieList MovieList={MoviesList} FavoriteList={MyFavorites.map((x) => x["imdbID"])} />
+        <div id="FavoriteSection"></div>
       </center>
     </div>
   );

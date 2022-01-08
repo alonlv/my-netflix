@@ -40,21 +40,20 @@ async function fetchMovieData(setData, imdbID, ListType) {
 function Movie(props) {
     const Movie = props.movie
     const Favorite = props.Favorite
-    const ListType = props.ListType
-    const [MovieData, setData] = useState()
+    //const [MovieData, setData] = useState()
 
     return (
         <div className="d-flex justify-content-start m-3" id="movie">
             <div>
-                <a onClick={() => fetchMovieData(setData, Movie.imdbID, ListType)}>
+                <a onClick={() => fetchMovieData(setData, Movie.imdbID)}>
                     <img src={Movie.Poster} alt="Poster" height="600" className="movie_poster"></img>
                 </a>
                 <center> {Movie.Title} ({Movie.Year})
-                    <a onClick={() => fetchMovieData(setData,Movie.imdbID, ListType )}> </a>
+                    <a onClick={() => fetchMovieData(setData,Movie.imdbID )}> </a>
                     <img onClick={() => UpdateDB(Movie)} src={Favorite ? favoriteIcon : notFavoriteIcon} alt="IsFavorite" className="icon"></img>
                 </center>
             </div>
-            <div id={Movie.imdbID + ListType}>
+            <div id={Movie.imdbID}>
 
             </div>
         </div>

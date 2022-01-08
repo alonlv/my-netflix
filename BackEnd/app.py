@@ -84,5 +84,15 @@ def getFavorites():
             dic_data["Search"].append(dic)
         return make_response(dic_data)
 
+        
+@app.route('/GetFavoritesID', methods=["GET", "POST"])
+def GetFavoritesID():
+        data = execute_query(COON, "SELECT imdbID FROM 'Favorites'")
+        dic_data = {"Response": "True", "Search":[]}
+        for movie in data:
+            dic = {"imdbID":movie[0]}
+            dic_data["Search"].append(dic)
+        return make_response(dic_data)
+
 if __name__ == '__main__':
     app.run("0.0.0.0", 80, debug=True)
