@@ -1,12 +1,10 @@
-import { setData, setState } from 'react'
-import { useState, useEffect } from 'react';
 import React from 'react';
 import DataSheet from './DataSheet';
 import ReactDOM from 'react-dom'
 import notFavoriteIcon from '../Img/not-favorite-icon.png';
 import favoriteIcon from '../Img/favorite-icon.png';
 
-function UpdateDB(Movie) {
+function UpdateDB(Movie, favorite) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -14,8 +12,6 @@ function UpdateDB(Movie) {
     };
     fetch('/toggleMovie', requestOptions)
         .then(response => response.json());
-
-    //window.location.reload();
 }
 
 async function fetchMovieData(imdbID) {
@@ -30,11 +26,17 @@ async function fetchMovieData(imdbID) {
     return
 }
 
+function ToggleFavoriteImg(Movie, Favorite) {
+    const ImgIsFavorite = document.getElementById("IsFavorite"+Movie.imdbID);
+    const ImgIsNotFavorite = document.getElementById("IsNotFavorite"+Movie.imdbID);
+    ImgIsFavorite.hidden = !ImgIsFavorite.hidden;
+    ImgIsNotFavorite.hidden = !ImgIsNotFavorite.hidden;
+    UpdateDB(Movie, Favorite);
+}
+
 function Movie(props) {
     const Movie = props.movie
-    //const Favorite = props.Favorite
-    const [Favorite = props.Favorite, setData] = useState()
-
+    let Favorite = props.Favorite;
     return (
         <div className="d-flex justify-content-start m-3" id="movie">
             <div>
@@ -42,7 +44,10 @@ function Movie(props) {
                     <img src={Movie.Poster} alt="Poster" height="600" className="movie_poster"></img>
                 </a>
                 <center> {Movie.Title} ({Movie.Year})
-                    <img onClick={() => UpdateDB(Movie)} src={Favorite ? favoriteIcon : notFavoriteIcon} alt="IsFavorite" className="icon"></img>
+                    <div id={Movie.imdbID + "Img"}>
+                        <img id={"IsFavorite"+Movie.imdbID} onClick={() => ToggleFavoriteImg(Movie, Favorite)} src={favoriteIcon} alt="IsFavorite" className="icon" hidden={!Favorite}></img>
+                        <img id={"IsNotFavorite"+Movie.imdbID} onClick={() => ToggleFavoriteImg(Movie, Favorite)} src={notFavoriteIcon} alt="IsNotFavorite" className="icon" hidden={Favorite}></img>
+                    </div>
                 </center>
             </div>
             <div id={Movie.imdbID}>

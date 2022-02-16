@@ -69,12 +69,15 @@ function App() {
     <div>
       <br></br>
       <center>
-        <button onClick={GetMyFavorites}>Show my</button>
         <SearchBox search={setText} />
         <Header header="Search result:" />
-        <MovieList MovieList={MoviesList} FavoriteList={MyFavorites.map((x) => x["imdbID"])} />
-        <div id="FavoriteSection"></div>
       </center>
+      <MovieList MovieList={MoviesList} FavoriteList={MyFavorites.map((x) => x["imdbID"])} />
+      <bar></bar>
+      <button onClick={GetMyFavorites}>Show my Favorites</button>
+      <center>
+        <div id="FavoriteSection"></div>
+      </center >
     </div>
   );
 }
