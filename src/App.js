@@ -32,7 +32,7 @@ async function GetMyFavorites() {
     const MyFavorites = await FetchFavoriteFullData();
     ReactDOM.render(<>
       <Header header="My Favorites:" />
-      <MovieList MovieList={MyFavorites} FavoriteList={MyFavorites.map((x) => x["imdbID"])} />
+      <MovieList MovieList={MyFavorites} ShowList="Favorite" FavoriteList={MyFavorites.map((x) => x["imdbID"])} />
     </>, DataDiv);
     return
   }
@@ -72,7 +72,7 @@ function App() {
         <SearchBox search={setText} />
         <Header header="Search result:" />
       </center>
-      <MovieList MovieList={MoviesList} FavoriteList={MyFavorites.map((x) => x["imdbID"])} />
+      <MovieList MovieList={MoviesList} ShowList="Search" FavoriteList={MyFavorites.map((x) => x["imdbID"])} />
       <bar></bar>
       <button onClick={GetMyFavorites}>Show my Favorites</button>
       <center>

@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import notFavoriteIcon from '../Img/not-favorite-icon.png';
 import favoriteIcon from '../Img/favorite-icon.png';
 
-function UpdateDB(Movie, favorite) {
+function UpdateDB(Movie) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -14,8 +14,8 @@ function UpdateDB(Movie, favorite) {
         .then(response => response.json());
 }
 
-async function fetchMovieData(imdbID) {
-    const DataDiv = document.getElementById(imdbID)
+async function fetchMovieData(imdbID, MovieWebUniqueID) {
+    const DataDiv = document.getElementById(MovieWebUniqueID)
     if (DataDiv.children.length == 0) {
         const response = await fetch(`http://www.omdbapi.com/?i=` + imdbID + `&apikey=63f983f4`);
         const MovieData = await response.json();
@@ -26,31 +26,32 @@ async function fetchMovieData(imdbID) {
     return
 }
 
-function ToggleFavoriteImg(Movie, Favorite) {
-    const ImgIsFavorite = document.getElementById("IsFavorite"+Movie.imdbID);
-    const ImgIsNotFavorite = document.getElementById("IsNotFavorite"+Movie.imdbID);
+function ToggleFavoriteImg(Movie, MovieWebUniqueID) {
+    const ImgIsFavorite = document.getElementById("IsFavorite"+MovieWebUniqueID);
+    const ImgIsNotFavorite = document.getElementById("IsNotFavorite"+MovieWebUniqueID);
     ImgIsFavorite.hidden = !ImgIsFavorite.hidden;
     ImgIsNotFavorite.hidden = !ImgIsNotFavorite.hidden;
-    UpdateDB(Movie, Favorite);
+    UpdateDB(Movie);
 }
 
 function Movie(props) {
     const Movie = props.movie
-    let Favorite = props.Favorite;
+    let Favorite = props.favorite;
+    const MovieWebUniqueID = Movie.imdbID + props.showList;
     return (
         <div className="d-flex justify-content-start m-3" id="movie">
             <div>
-                <a onClick={() => fetchMovieData(Movie.imdbID)}>
+                <a onClick={() => fetchMovieData(Movie.imdbID, MovieWebUniqueID)}>
                     <img src={Movie.Poster} alt="Poster" height="600" className="movie_poster"></img>
                 </a>
                 <center> {Movie.Title} ({Movie.Year})
-                    <div id={Movie.imdbID + "Img"}>
-                        <img id={"IsFavorite"+Movie.imdbID} onClick={() => ToggleFavoriteImg(Movie, Favorite)} src={favoriteIcon} alt="IsFavorite" className="icon" hidden={!Favorite}></img>
-                        <img id={"IsNotFavorite"+Movie.imdbID} onClick={() => ToggleFavoriteImg(Movie, Favorite)} src={notFavoriteIcon} alt="IsNotFavorite" className="icon" hidden={Favorite}></img>
+                    <div id={MovieWebUniqueID+ "Img"}>
+                        <img id={"IsFavorite"+MovieWebUniqueID} onClick={() => ToggleFavoriteImg(Movie, MovieWebUniqueID)} src={favoriteIcon} alt="IsFavorite" className="icon" hidden={!Favorite}></img>
+                        <img id={"IsNotFavorite"+MovieWebUniqueID} onClick={() => ToggleFavoriteImg(Movie, MovieWebUniqueID)} src={notFavoriteIcon} alt="IsNotFavorite" className="icon" hidden={Favorite}></img>
                     </div>
                 </center>
             </div>
-            <div id={Movie.imdbID}>
+            <div id={MovieWebUniqueID}>
 
             </div>
         </div>
