@@ -1,9 +1,7 @@
-import { render } from '@testing-library/react';
 import React from 'react';
 
 function DataShit(props) {
     const MovieData = props.movieData
-    //console.log(MovieData)
     return (
         <table class="table table-dark table-borderless" id="moviedata">
             <thead>

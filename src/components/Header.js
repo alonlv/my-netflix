@@ -1,10 +1,9 @@
-
-function Header(props){
-    return(
+function Header(props) {
+    return (
         <div id="header">
             <h1>{props.header}</h1>
         </div>
     );
 
 }
-export default Header ;
+export default Header;

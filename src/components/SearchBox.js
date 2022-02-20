@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 function SearchBox(props) {
     let search = props.search
     return (

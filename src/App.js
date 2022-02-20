@@ -26,6 +26,7 @@ async function FetchMovies(setData, search) {
   }, [search])
 }
 
+// Fetch MyFavorites Data and create my Favorites list 
 async function GetMyFavorites() {
   const DataDiv = document.getElementById('FavoriteSection')
   if (DataDiv.children.length == 0) {
@@ -40,14 +41,15 @@ async function GetMyFavorites() {
   return
 }
 
+// Fetch Favorites Data From SQLlite local server
 async function FetchFavoriteFullData() {
   const response = await fetch(`http://localhost//GetFavorites`);
   const data = await response.json();
   return data["Search"]
 }
 
-// Fetch Favorite Data From SQLlite local server
-async function FetchFavoriteData(setFavoriteData, FullData) {
+// Fetch Favorites ID From SQLlite local server
+async function FetchFavoriteData(setFavoriteData) {
   useEffect(() => {
     async function fetchfavoriteMoviesList() {
       const response = await fetch(`http://localhost//GetFavoritesID`);
