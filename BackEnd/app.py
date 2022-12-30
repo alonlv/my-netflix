@@ -8,12 +8,21 @@ from flask import Flask, send_from_directory, jsonify
 from flask import Response, request
 from functools import wraps
 
-ROOT_FOLDER = "../build"
+ROOT_FOLDER = "../build q"
 PATH = 'index.html'
 COON = create_connection()
 create_table(COON)
 
 app = Flask(__name__, static_folder=os.path.join(ROOT_FOLDER))
+
+
+#CREATE TABLE "Favorites" (
+#	"imdbID"	TEXT,
+#	"Title"	TEXT,
+#	"Poster"	TEXT,
+#	"Year"	NUMERIC,
+#	PRIMARY KEY("imdbID")
+#);
 
 class NetflixResponse(object):
     def __init__(self, data, status="success", http_status_code=200, http_extra_headers=None):
